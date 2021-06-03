@@ -1,0 +1,8 @@
+{
+  "camera_settings":
+    {"1": {"id": "22911326"}},
+  "database_settings":
+    {"1": {"host": "107.118.110.244", "pw": "0000", "port": "3312", "db": "vision_inspection", "user": "park"}},
+  "io_settings":
+    {"1": {"com_scanner": "COM7"}}
+}
