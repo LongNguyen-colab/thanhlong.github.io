@@ -169,8 +169,8 @@ class Thread(QThread):
         try:
             res_dict = dict()
             starttime = timeit.default_timer()
-            # frame = MainWindow.viewer1.get_image()
-            frame = cv2.imread(r'D:\VISION INSPECTION SYSTEM\Images_data\3b5facaf-fd89-48d4-a1aa-cf8e1da54e03_CURV_LED_OFF.png')
+            frame = MainWindow.viewer1.get_image()
+            # frame = cv2.imread(r'D:\VISION INSPECTION SYSTEM\Images_data\3b5facaf-fd89-48d4-a1aa-cf8e1da54e03_CURV_LED_OFF.png')
             root = MainWindow.inspection_sq
             for i,r in enumerate(root):
                 # Get SPEC from xml
@@ -840,8 +840,8 @@ class TSWindow(QtWidgets.QMainWindow):
 
     @QtCore.pyqtSlot()
     def update_frame(self):
-        # image = MainWindow.viewer1.get_image()
-        image = cv2.imread(r'D:\VISION INSPECTION SYSTEM\Images_data\3b5facaf-fd89-48d4-a1aa-cf8e1da54e03_CURV_LED_OFF.png')
+        image = MainWindow.viewer1.get_image()
+        # image = cv2.imread(r'D:\VISION INSPECTION SYSTEM\Images_data\3b5facaf-fd89-48d4-a1aa-cf8e1da54e03_CURV_LED_OFF.png')
         s = self.process_img(image)
         self.displayImage(s)
 
