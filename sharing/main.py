@@ -64,7 +64,7 @@ def check_img_folder():
             os.makedirs(resource_path(f'Images_data/{datetime.today().strftime("%m%d%Y")}/OK'))
             os.makedirs(resource_path(f'Images_data/{datetime.today().strftime("%m%d%Y")}/NG'))
     except Exception as e:
-        logging.warning(e)
+        pass
 
 
 class Thread_scanner(QThread):
@@ -83,7 +83,7 @@ class Thread_scanner(QThread):
                         serialString = serialPort.readline().decode()
                         self.get_epass.emit(serialString)
             except Exception as e:
-                logging.warning(e)
+                logging.warning(f'lines 86 {e}')
 
         except Exception as e:
             logging.warning("Cannot open com for epass"+e)
@@ -153,7 +153,7 @@ class recheck_single(QThread):
             self.change_isp_time.emit(float(str(isp_time)))
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 156 {e}')
 
 
 class Thread(QThread):
@@ -224,7 +224,7 @@ class Thread(QThread):
             self.change_isp_time.emit(float(str(isp_time)))
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 227 {e}')
 
 
 class load_model(QThread):
@@ -239,7 +239,7 @@ class load_model(QThread):
                 self.change_isp_time.emit(f"[DONE] Loaded model in {str(net_pack[2])[:7]} second(s)")
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 242 {e}')
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -360,7 +360,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.get_board_mapping()
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 363{e}')
 
         self.check_connection()
 
@@ -369,7 +369,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.thread_epass.get_epass.connect(self.set_epass)
             self.thread_epass.start()
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 372{e}')
 
         self.timer_rf_mapping = QtCore.QTimer(self, interval=1000)
         self.timer_rf_mapping.timeout.connect(self.rf_mapping)
@@ -407,7 +407,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.run()
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 410 {e}')
 
     def update_space(self):
         try:
@@ -420,7 +420,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.progress.setValue(get_free_percentage)
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 423 {e}')
 
 
 
@@ -456,7 +456,7 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             self.mapping_data = self.get_mapping()
         except Exception as e:
-           logging.warning(e)
+           logging.warning(f'lines 459 {e}')
         # refresh mapping db
 
 
@@ -476,7 +476,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     break
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 479{e}')
 
     def get_ip(self):
         try:
@@ -527,7 +527,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 return mapping_data
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 530{e}')
 
     def get_board_mapping(self):
         try:
@@ -541,7 +541,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     board_mapping_data[row[0]] = row[2]
                 MainWindow.board_mapping = board_mapping_data
         except Exception as e:
-            logging.warning(e)
+            logging.warning(f'lines 544{e}')
 
 
     def connect_sql(self):
@@ -571,7 +571,7 @@ class MainWindow(QtWidgets.QMainWindow):
             p = convertToQtFormat.scaled(x, y, Qt.KeepAspectRatio)
             return p
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 574"+e)
 
     def display_template(self, img, obj, x, y):
         try:
@@ -579,7 +579,7 @@ class MainWindow(QtWidgets.QMainWindow):
             obj.setPixmap(QPixmap.fromImage(image))
             obj.setScaledContents(True)
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 582"+e)
 
     def show_item_info(self):
         try:
@@ -591,7 +591,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.write_show_log(text)
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 594"+e)
 
     @pyqtSlot(str)
     def write_show_log(self, text):
@@ -602,7 +602,7 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             self.log_terminal.clear()
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 605"+e)
 
     def run(self):
         try:
@@ -629,7 +629,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.update_space()
         except Exception as e:
             self.btn_run.setEnabled(True)
-            logging.warning(e)
+            logging.warning("lines 632"+e)
 
     @pyqtSlot(np.ndarray, bool, str)
     def save_data(self, image, res, TYPE):
@@ -645,7 +645,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 cv2.imwrite(save_path, image)
                 logging.warning(f'[Insp Result]{self.epass_input.text()}_{TYPE}_{status[res]}')
             except Exception as e:
-                logging.warning(e)
+                logging.warning("lines 648"+e)
 
 
     def clear_all(self):
@@ -659,14 +659,14 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             self.lcdnumber.display(time*1000)
         except Exception as e:
-            logging.warning(e)
+            logging.warning("linses 662"+e)
 
     @pyqtSlot(np.ndarray)
     def load_display1(self, image):
         try:
             self.display_template(image, self.display1, 700, 700)
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 669"+e)
 
     @pyqtSlot(bool)
     def isp_res(self, res):
@@ -681,13 +681,15 @@ class MainWindow(QtWidgets.QMainWindow):
                     self.display_isp_res.setStyleSheet("background-color: rgb(0, 255, 0);")
 
         except Exception as e:
-                logging.warning(e)
+                logging.warning("lines 684"+e)
 
     def upload_res(self, res, TYPE):
-        self.init_db()
-        mySql_insert_query = f"INSERT INTO isp_results (EPASS, RESULT, MACHINE_IP, ISP_MODE) VALUES ('{self.epass_input.text()}', '{res}', '{self.machine_ip}', '{TYPE}')"
-        self.mycursor.execute(mySql_insert_query)
-        self.mydb.commit()
+        # self.init_db()
+        # mySql_insert_query = f"INSERT INTO isp_results (EPASS, RESULT, MACHINE_IP, ISP_MODE) VALUES ('{self.epass_input.text()}', '{res}', '{self.machine_ip}', '{TYPE}')"
+        # self.mycursor.execute(mySql_insert_query)
+        # self.mydb.commit()
+        logging.warning(
+            f"IPS_RESULT (EPASS, RESULT, MACHINE_IP, ISP_MODE) VALUES ('{self.epass_input.text()},', '{res},', '{self.machine_ip},', '{TYPE}')")
 
     @pyqtSlot(str, bool)
     def update_color(self, text, res):
@@ -700,7 +702,7 @@ class MainWindow(QtWidgets.QMainWindow):
             elif res is True:
                 item.setForeground(Qt.green)
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines703"+e)
 
     def control_sq(self):
         self.dialog = SQWindow()
@@ -730,7 +732,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.display_current_sq.setText(self.cb_sq.currentText())
             self.load_insoection_sq()
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 733"+e)
 
     def convrt_cv_qt(self, img, x, y):
         rgbImage = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -749,7 +751,7 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             MainWindow.inspection_sq = ET.parse(resource_path(f'SEQUENCES/{self.cb_sq.currentText()}.xml')).getroot()
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 752"+e)
 
 
 class SQWindow(QtWidgets.QMainWindow):
@@ -833,7 +835,7 @@ class TSWindow(QtWidgets.QMainWindow):
             return thresh_frame
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 836"+e)
 
 
     @QtCore.pyqtSlot()
@@ -910,7 +912,7 @@ class WSWindow(QtWidgets.QMainWindow):
 
             return thresh
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 913"+e)
 
 
     @QtCore.pyqtSlot()
@@ -1015,7 +1017,7 @@ class DCWindow(QtWidgets.QMainWindow):
                 cv2.drawContours(dil, [hull], 0, (0, 0, 0), 10)
             return dil
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 1018"+e)
 
 
     @QtCore.pyqtSlot()
@@ -1060,7 +1062,7 @@ class FPBWindow(QtWidgets.QMainWindow):
 
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 1063"+e)
 
         # try:
         #     self.thread_epass2 = Thread_scanner2(self)
@@ -1105,7 +1107,7 @@ class FPBWindow(QtWidgets.QMainWindow):
                 self.clear()
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 1108"+e)
 
     def closeEvent(self, event):
         self.thread_epass2.quit()
@@ -1123,7 +1125,7 @@ class FPBWindow(QtWidgets.QMainWindow):
             return mydb
 
         except Exception as err:
-            print("Something went wrong connect_sql(): {}".format(err))
+            print("1126 Something went wrong connect_sql(): {}".format(err))
 
     def init_db(self):
         try:
@@ -1131,7 +1133,7 @@ class FPBWindow(QtWidgets.QMainWindow):
             self.mydb = self.connect_sql()
             self.mycursor = self.mydb.cursor()
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 1134"+e)
 
     def check(self, a, b):
         try:
@@ -1162,10 +1164,12 @@ class FPBWindow(QtWidgets.QMainWindow):
             self.lbl_status.setStyleSheet("background-color: rgb(0, 255, 0)")
             self.lbl_status.setText("OK")
 
-        self.init_db()
-        mySql_insert_query = f"INSERT INTO ldboard_result (CHECK_KEY, RESULT, MACHINE_IP, DATE) VALUES ('{key}', '{res}', '{MainWindow.IP}','{datetime.now()}')"
-        self.mycursor.execute(mySql_insert_query)
-        self.mydb.commit()
+        # self.init_db()
+        # mySql_insert_query = f"INSERT INTO ldboard_result (CHECK_KEY, RESULT, MACHINE_IP, DATE) VALUES ('{key}', '{res}','{MainWindow.IP}','{datetime.now()}')"
+        # self.mycursor.execute(mySql_insert_query)
+        # self.mydb.commit()
+
+        logging.warning(f"Result (CHECK_KEY, RESULT, MACHINE_IP, DATE) VALUES ('{key},', '{res},','{MainWindow.IP},','{datetime.now()}')")
 
 
 class OEWindow(QtWidgets.QMainWindow):
@@ -1229,7 +1233,7 @@ class OEWindow(QtWidgets.QMainWindow):
             return thresh_frame
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 1232"+e)
 
 
     @QtCore.pyqtSlot()
@@ -1360,7 +1364,7 @@ class PWindow(QtWidgets.QWidget):
             self.cb_mode.currentTextChanged.connect(self.loadImage)
             self.loadImage()
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 1363"+e)
 
 
     def load_cb(self):
@@ -1371,14 +1375,14 @@ class PWindow(QtWidgets.QWidget):
                     self.cb_mode.addItem(i)
 
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 1374"+e)
 
     def loadImage(self):
         try:
             if self.cb_mode.currentText() != "":
                 self.viewer.setPhoto(self.convert_nparray_to_QPixmap(MainWindow.result_image[self.cb_mode.currentText()]))
         except Exception as e:
-            logging.warning(e)
+            logging.warning("lines 1381"+e)
 
     def convert_nparray_to_QPixmap(self, img):
         # w, h, ch = img.shape
